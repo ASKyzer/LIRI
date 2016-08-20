@@ -1,9 +1,13 @@
 # Node-and-API
 Exercise with Node and Spotify, Twitter and OMDB API's
 
+When running a comand to find a movie or song title, if the title contains spaces then add quotes around the title name.
+
+
 Install packages before running:
 NodeJS: https://nodejs.org/en/
 nodejitsu: https://docs.nodejitsu.com/
+fs NPM: https://www.npmjs.com/package/file-system
 Request NPM: https://www.npmjs.com/package/request
 Twitter NPM: https://www.npmjs.com/package/twitter
 Spotify NPM: https://www.npmjs.com/package/spotify
