@@ -1,17 +1,26 @@
+//NPM package for reading and writing files
+var fs = require("fs");
+
 var userCommand = process.argv[3];
 
-if (userCommand === "my-tweets"){
+switch(){
+	case 'my-tweets':
 
-}
-else if (userCommand === "spotify-this-song"){
+	break;
 
-}
-else if (userCommand === "movie-this"){
+	case "spotify-this-song":
 
-}
-else if (userCommand === "do-what-it-says"){
+	break;
 
-}
-else {
-	console.log("Not a recognized command.");
+	case "movie-this":
+
+	break;
+
+	case "do-what-it-says":
+
+	break;
+
+	default:
+
+
 }
