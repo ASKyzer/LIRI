@@ -2,7 +2,7 @@
 Exercise with Node and Spotify, Twitter and OMDB API's
 
 When running a comand to find a movie or song title, if the title contains spaces then add quotes around the title name.
-
+Case also matters. Must be exactly as the real movie title case is.
 
 Install packages before running:
 NodeJS: https://nodejs.org/en/
