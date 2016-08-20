@@ -11,8 +11,8 @@
 
 var fs = require("fs");				//NPM package for reading and writing files
 var request = require("request");	//NPM package for making ajax-like calls
-var twitter = require("twitter");	//NPM package for twitter
-var spotify = require("spotify");	//NPM package for spotify
+// var twitter = require("twitter");	//NPM package for twitter
+// var spotify = require("spotify");	//NPM package for spotify
 
 
 request('https://en.wikipedia.org/wiki/Kudos_(granola_bar)', function (error, response, data){
