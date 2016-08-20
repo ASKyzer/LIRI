@@ -5,13 +5,12 @@
 //////////////////////////////////////////////////////////////////////////
 
 
+var keys = require("./keys.js");
 
 var fs = require("fs");				//NPM package for reading and writing files
 var request = require("request");	//NPM package for making ajax-like calls
 var twitter = require("twitter");	//NPM package for twitter
 var spotify = require("spotify");	//NPM package for spotify
-
-
 
 var userCommand = process.argv[2];
 var artName = process.argv[3];
@@ -43,29 +42,27 @@ function fetchTwitter(){
 }
 
 
-
 function fetchSpotify(songName){
 	//If a song was not typed it, default to the movie Mr. Nobody
 	if (artName == null){
 		songName = "The+Sign";
 	}
 
-	var requestURL = "https://api.spotify.com/v1/search?q=" + songName + "&type=track&limit=10" ;
-
-	request(requestURL, function (error, response, data){
-
-		//200 response means that the page has been found and a response was received.
-		if (!error && response.statusCode == 200){
-			console.log(data);
-		}
-
-		console.log("---------------------------------------------");
-		console.log(JSON.parse(data));
+	spotify.search({ type: 'track', query: songName}, function(err, data) {
+	    if ( err ) {
+	        console.log('Error occurred: ' + err);
+	        return;
+	    }
+	 
+	    // Do something with 'data'
+		console.log(data);
+		console.log("---------------------------------------------");		
 		// console.log("The song's artist is: " + JSON.parse(data)["name"]);
 		// console.log("The song's name is: " + JSON.parse(data)["Year"]);		
 		// console.log("The song's URL is: " + JSON.parse(data)["imdbRating"]);
-		// console.log("The song's album is: " + JSON.parse(data)["Country"]);									
+		// console.log("The song's album is: " + JSON.parse(data)["Country"]);		    
 	});
+
 
 // * This will show the following information about the song in your terminal/bash window
 // 	* Artist(s)
