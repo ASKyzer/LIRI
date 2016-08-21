@@ -38,7 +38,18 @@ switch(userCommand){
 
 
 function fetchTwitter(){
-//This will show your last 20 tweets and when they were created at in your terminal/bash window.
+
+	//From twitter's NPM documentation, grab the most recent tweets
+	var params = {screen_name: 'nodejs'};
+	client.get('statuses/user_timeline', params, function(error, tweets, response) {
+		if (!error) {
+			console.log(tweets);
+
+
+
+
+		}
+	});
 }
 
 
@@ -48,6 +59,7 @@ function fetchSpotify(songName){
 		songName = "The Sign";
 	}
 
+	//Get data from spotify API based on the query term (song name) typed in by the suer
 	spotify.search({ type: 'track', query: songName}, function(err, data) {
 	    if ( err ) {
 	        console.log('Error occurred: ' + err);
