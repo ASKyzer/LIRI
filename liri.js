@@ -45,7 +45,7 @@ function fetchTwitter(){
 function fetchSpotify(songName){
 	//If a song was not typed it, default to the movie Mr. Nobody
 	if (artName == null){
-		songName = "The+Sign";
+		songName = "The Sign";
 	}
 
 	spotify.search({ type: 'track', query: songName}, function(err, data) {
@@ -53,25 +53,32 @@ function fetchSpotify(songName){
 	        console.log('Error occurred: ' + err);
 	        return;
 	    }
-	 
-	    // Do something with 'data'
-		console.log(data);
-		console.log("---------------------------------------------");		
-		// console.log("The song's artist is: " + JSON.parse(data)["name"]);
-		// console.log("The song's name is: " + JSON.parse(data)["Year"]);		
-		// console.log("The song's URL is: " + JSON.parse(data)["imdbRating"]);
-		// console.log("The song's album is: " + JSON.parse(data)["Country"]);		    
+
+	    var matchedTracks = [];
+	    var dataItems = data.tracks.items;
+
+	    if (songName == "The Sign"){
+			console.log("Track: " + dataItems[7].name);	
+			console.log("Artist: " + dataItems[7].artists[0].name);
+			console.log("Album" + dataItems[7].album.name);
+			console.log("Spotify link: " + dataItems[7].external_urls.spotify);
+		}
+		else {
+			matchedTracks = [];
+
+		    for (var i=0; i<20; i++){
+		    	if (data.tracks.items[i].name == songName){
+		    		matchedTracks.push(i);
+		    	}
+		    }
+
+		    console.log(matchedTracks.length + " tracks found that match your query.")
+    		console.log("Track: " + dataItems[matchedTracks[0]].name);	
+			console.log("Artist: " + dataItems[matchedTracks[0]].artists[0].name);
+			console.log("Album: " + dataItems[matchedTracks[0]].album.name);
+			console.log("Spotify link: " + dataItems[matchedTracks[0]].external_urls.spotify);	
+		}
 	});
-
-
-// * This will show the following information about the song in your terminal/bash window
-// 	* Artist(s)
-// 	* The song's name
-// 	* A preview link of the song from Spotify
-// 	* The album that the song is from
-
-// * if no song is provided then your program will default to
-// 	* "The Sign" by Ace of Base
 }
 
 function fetchOMDB(movieName){
