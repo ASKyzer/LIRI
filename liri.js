@@ -9,7 +9,8 @@ var keys = require("./keys.js");
 
 var fs = require("fs");				//NPM package for reading and writing files
 var request = require("request");	//NPM package for making ajax-like calls
-var twitter = require("twitter");	//NPM package for twitter
+var Twitter = require("twitter");	//NPM package for twitter
+var client = new Twitter(keys.twitterKeys);
 var spotify = require("spotify");	//NPM package for spotify
 
 var userCommand = process.argv[2];
@@ -40,15 +41,11 @@ switch(userCommand){
 function fetchTwitter(){
 
 	//From twitter's NPM documentation, grab the most recent tweets
-	var params = {screen_name: 'nodejs'};
-	client.get('statuses/user_timeline', params, function(error, tweets, response) {
-		if (!error) {
-			console.log(tweets);
-
-
-
-
-		}
+	var params = {screen_name: 'MichelleHett'};
+	client.get('statuses/home_timeline', function(error, tweets, response) {
+	  if(error) throw error;
+	  console.log(tweets);  // The favorites. 
+	  // console.log(response);  // Raw response object. 
 	});
 }
 
