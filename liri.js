@@ -4,19 +4,23 @@
 // * Do not overwrite your file each time you run a command.
 //////////////////////////////////////////////////////////////////////////
 
+var fs = require("fs");				//NPM package for reading and writing files
 
 var keys = require("./keys.js");
-
-var fs = require("fs");				//NPM package for reading and writing files
-var request = require("request");	//NPM package for making ajax-like calls
 var Twitter = require("twitter");	//NPM package for twitter
 var client = new Twitter(keys.twitterKeys);
+
+var request = require("request");	//NPM package for making ajax-like calls
+
 var spotify = require("spotify");	//NPM package for spotify
 
 var userCommand = process.argv[2];
 var artName = process.argv[3];
 
-switch(userCommand){
+doNext();
+
+function doNext(){
+	switch(userCommand){
 	case 'my-tweets':
 		fetchTwitter();
 	break;
@@ -35,7 +39,10 @@ switch(userCommand){
 
 	default:
 	break;
+	}
 }
+
+
 
 
 function fetchTwitter(){
@@ -49,10 +56,22 @@ function fetchTwitter(){
 	});
 }
 
+//Capitalize first letter of each part of song name
+function upperCase (string){
+	return string.toUpperCase();
+}
+function titleCase(string){
+	var firstLetter = /(^|\s)[a-z]/g;
+	return string.replace(firstLetter, upperCase);
+}
 
-function fetchSpotify(songName){
+function fetchSpotify(song){
+	if (song != null){
+		var songName = titleCase(song);
+	}
+
 	//If a song was not typed it, default to the movie Mr. Nobody
-	if (artName == null){
+	if (song == null){
 		songName = "The Sign";
 	}
 
@@ -81,11 +100,14 @@ function fetchSpotify(songName){
 		    	}
 		    }
 
-		    console.log(matchedTracks.length + " tracks found that match your query.")
-    		console.log("Track: " + dataItems[matchedTracks[0]].name);	
-			console.log("Artist: " + dataItems[matchedTracks[0]].artists[0].name);
-			console.log("Album: " + dataItems[matchedTracks[0]].album.name);
-			console.log("Spotify link: " + dataItems[matchedTracks[0]].external_urls.spotify);	
+		    console.log(matchedTracks.length + " tracks found that match your query.");
+
+		    if (matchedTracks.length == 0){
+	    		console.log("Track: " + dataItems[matchedTracks[0]].name);	
+				console.log("Artist: " + dataItems[matchedTracks[0]].artists[0].name);
+				console.log("Album: " + dataItems[matchedTracks[0]].album.name);
+				console.log("Spotify link: " + dataItems[matchedTracks[0]].external_urls.spotify);
+			}
 		}
 	});
 }
@@ -121,4 +143,19 @@ function fetchRandom(){
 // * Using the `fs` Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
 // 	* It should run `spotify-this-song` for "I Want it That Way," as follows the text in `random.txt`.
 // 	* Feel free to change the text in that document to test out the feature for other commands.
+	fs.readFile("random.txt", 'utf8', function(err, data){
+
+	console.log(data);
+
+	//Creating an array from a string with split()
+	//Every comma, push the element into the array
+	var dataArr = data.split(',');
+
+	console.log(dataArr);
+
+	userCommand = dataArr[0];
+	artName = dataArr[1];
+	doNext();
+
+	})
 }
