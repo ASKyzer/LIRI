@@ -17,20 +17,20 @@ var spotify = require("spotify");	//NPM package for spotify
 var userCommand = process.argv[2];
 var artName = process.argv[3];
 
-doNext();
+doNext(userCommand,artName);
 
-function doNext(){
-	switch(userCommand){
+function doNext(uC, aN){
+	switch(uC){
 	case 'my-tweets':
 		fetchTwitter();
 	break;
 
 	case "spotify-this-song":
-		fetchSpotify(artName);
+		fetchSpotify(aN);
 	break;
 
 	case "movie-this":
-		fetchOMDB(artName);
+		fetchOMDB(aN);
 	break;
 
 	case "do-what-it-says":
@@ -42,17 +42,30 @@ function doNext(){
 	}
 }
 
-
-
-
 function fetchTwitter(){
+	var tweetsLength;
 
 	//From twitter's NPM documentation, grab the most recent tweets
 	var params = {screen_name: 'MichelleHett'};
-	client.get('statuses/home_timeline', function(error, tweets, response) {
-	  if(error) throw error;
-	  console.log(tweets);  // The favorites. 
-	  // console.log(response);  // Raw response object. 
+	client.get('statuses/user_timeline', function(error, tweets, response) {
+		if(error) throw error;
+
+		//Loop through the number of tweets that were returned to get the number of tweets returned.
+		//If the number of tweets exceeds 20, make it 20.
+		//Then loop through the length of tweets and return the tweets date and text.
+		tweetsLength = 0;
+
+		for(var i=0; i<tweets.length; i++){
+			tweetsLength ++;
+		}
+		if (tweetsLength > 20){
+			tweetsLength = 20;
+		}
+		for (var i=0; i<tweetsLength; i++){
+			console.log("Tweet " + (i+1) + " created on: " + tweets[i].created_at);
+			console.log("Tweet " + (i+1) + " text: " + tweets[i].text);
+			console.log("--------------------------------------------------------------");
+		}
 	});
 }
 
@@ -66,16 +79,20 @@ function titleCase(string){
 }
 
 function fetchSpotify(song){
-	if (song != null){
-		var songName = titleCase(song);
-	}
+	var songName;
 
-	//If a song was not typed it, default to the movie Mr. Nobody
-	if (song == null){
+	//If a song WAS chosen, make it title case so spotify can find it in its database
+	//If a song was not typed it, default to the song The Sign
+	if (song != null){
+		songName = titleCase(song);
+	}
+	else {
 		songName = "The Sign";
 	}
+	console.log("Searching for: " + songName);
+	console.log("------------------------");
 
-	//Get data from spotify API based on the query term (song name) typed in by the suer
+	//Get data from spotify API based on the query term (song name) typed in by the user
 	spotify.search({ type: 'track', query: songName}, function(err, data) {
 	    if ( err ) {
 	        console.log('Error occurred: ' + err);
@@ -85,30 +102,24 @@ function fetchSpotify(song){
 	    var matchedTracks = [];
 	    var dataItems = data.tracks.items;
 
-	    if (songName == "The Sign"){
-			console.log("Track: " + dataItems[7].name);	
-			console.log("Artist: " + dataItems[7].artists[0].name);
-			console.log("Album" + dataItems[7].album.name);
-			console.log("Spotify link: " + dataItems[7].external_urls.spotify);
+	    for (var i=0; i<20; i++){
+	    	if (data.tracks.items[i].name == songName){
+	    		matchedTracks.push(i);
+	    	}
+	    }
+
+	    console.log(matchedTracks.length + " tracks found that match your query.");
+
+	    if (matchedTracks.length > 0){
+    		console.log("Track: " + dataItems[matchedTracks[0]].name);	
+			console.log("Artist: " + dataItems[matchedTracks[0]].artists[0].name);
+			console.log("Album: " + dataItems[matchedTracks[0]].album.name);
+			console.log("Spotify link: " + dataItems[matchedTracks[0]].external_urls.spotify);
 		}
-		else {
-			matchedTracks = [];
-
-		    for (var i=0; i<20; i++){
-		    	if (data.tracks.items[i].name == songName){
-		    		matchedTracks.push(i);
-		    	}
-		    }
-
-		    console.log(matchedTracks.length + " tracks found that match your query.");
-
-		    if (matchedTracks.length == 0){
-	    		console.log("Track: " + dataItems[matchedTracks[0]].name);	
-				console.log("Artist: " + dataItems[matchedTracks[0]].artists[0].name);
-				console.log("Album: " + dataItems[matchedTracks[0]].album.name);
-				console.log("Spotify link: " + dataItems[matchedTracks[0]].external_urls.spotify);
-			}
+		else if (matchedTracks.length == 0){
+			console.log("Sorry, but spotify does not contain that song in their database :(");
 		}
+		
 	});
 }
 
@@ -140,22 +151,26 @@ function fetchOMDB(movieName){
 }
 
 function fetchRandom(){
-// * Using the `fs` Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
-// 	* It should run `spotify-this-song` for "I Want it That Way," as follows the text in `random.txt`.
-// 	* Feel free to change the text in that document to test out the feature for other commands.
+	//LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
+	//Runs `spotify-this-song` for "I Want it That Way," as follows the text in `random.txt`.
 	fs.readFile("random.txt", 'utf8', function(err, data){
 
-	console.log(data);
+		// console.log(data);
 
-	//Creating an array from a string with split()
-	//Every comma, push the element into the array
-	var dataArr = data.split(',');
+		//Creating an array from a string with split()
+		//Every comma, push the element into the array
+		var dataArr = data.split(',');
 
-	console.log(dataArr);
+		// console.log(dataArr);
 
-	userCommand = dataArr[0];
-	artName = dataArr[1];
-	doNext();
+		var randomUserCommand = dataArr[0];
+		var randomArtName = dataArr[1];
 
-	})
+		console.log("You requested to " + "<" + randomUserCommand + "> with " + randomArtName);
+
+		//Remove the quotes before making a request
+		randomArtName = randomArtName.replace(/^"(.*)"$/, '$1');
+
+		doNext(randomUserCommand, randomArtName);
+	});
 }
