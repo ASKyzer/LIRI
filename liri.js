@@ -1,18 +1,12 @@
-// ### BONUS
-// * In addition to logging the data to your terminal/bash window, output the data to a .txt file called `log.txt`.
-// * Make sure you append each command you run to the `log.txt` file. 
-// * Do not overwrite your file each time you run a command.
-//////////////////////////////////////////////////////////////////////////
+var fs = require("fs");							//NPM package for reading and writing files
 
-var fs = require("fs");				//NPM package for reading and writing files
+var keys = require("./keys.js");				//Twitter keys and access tokens
+var Twitter = require("twitter");				//NPM package for twitter
+var client = new Twitter(keys.twitterKeys);		//New instance of a twitter client
 
-var keys = require("./keys.js");
-var Twitter = require("twitter");	//NPM package for twitter
-var client = new Twitter(keys.twitterKeys);
+var request = require("request");				//NPM package for making ajax-like calls
 
-var request = require("request");	//NPM package for making ajax-like calls
-
-var spotify = require("spotify");	//NPM package for spotify
+var spotify = require("spotify");				//NPM package for spotify
 
 var userCommand = process.argv[2];
 var artName = process.argv[3];
@@ -73,8 +67,8 @@ function fetchTwitter(){
 	});
 }
 
-//Capitalize first letter of each part of song name
 function upperCase (string){
+	//Capitalize first letter of each part of song name
 	return string.toUpperCase();
 }
 function titleCase(string){
