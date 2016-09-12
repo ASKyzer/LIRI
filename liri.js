@@ -143,7 +143,7 @@ function fetchOMDB(movieName){
 
 		//200 response means that the page has been found and a response was received.
 		if (!error && response.statusCode == 200){
-			console.log(data);
+			console.log("Everything working fine.");
 		}
 		console.log("---------------------------------------------");
 		console.log("The movie's title is: " + JSON.parse(data)["Title"]);
