@@ -1,0 +1,33 @@
+{
+  "name": "liri",
+  "version": "1.0.0",
+  "description": "command line node app to make api calls and retrieve information about music, movies and twitter",
+  "main": "liri.js",
+  "dependencies": {
+    "request": "^2.79.0",
+    "spotify": "^0.3.0",
+    "twitter": "^1.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node liri do-what-it-says"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MichelleHettinger/Node-and-API.git"
+  },
+  "keywords": [
+    "CLI",
+    "node.js",
+    "api",
+    "spotify",
+    "twitter",
+    "omdb"
+  ],
+  "author": "Michelle Hettinger",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MichelleHettinger/Node-and-API/issues"
+  },
+  "homepage": "https://github.com/MichelleHettinger/Node-and-API#readme"
+}
