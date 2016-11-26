@@ -1,18 +1,20 @@
-# Node-and-API
-Exercise with Node and Spotify, Twitter and OMDB API's
+# LIRI
 
-When running a comand to find a movie or song title, if the title contains spaces then add quotes around the title name.
-Case also matters. Must be exactly as the real movie title case is.
+LIRI is a command line node app that returns tweets, song information and movie information depending on the command. When running a comand to find a movie or song title, if the title contains spaces then add quotes around the title name. Case also matters. Must be exactly as the real movie title case is.
 
-Install packages before running:
-NodeJS: https://nodejs.org/en/
-nodejitsu: https://docs.nodejitsu.com/
-fs NPM: https://www.npmjs.com/package/file-system
-Request NPM: https://www.npmjs.com/package/request
-Twitter NPM: https://www.npmjs.com/package/twitter
-Spotify NPM: https://www.npmjs.com/package/spotify
+Instructions:
 
-Twitter API: https://dev.twitter.com/overview/documentation
-OMDB API: http://www.omdbapi.com/
-Spotify API: https://developer.spotify.com/web-api/
+1) Clone or download git repository.
 
+2) Install Node.js with NPM ( https://nodejs.org/en/download/ ).
+
+3) In your terminal run the command ( npm install ).
+
+4) Get your twitter API Key ( https://twittercommunity.com/t/how-to-get-my-api-key/7033 ). Next fill out the fields in keys.js with your twitter keys.
+
+4) Now you can run the following commands:
+
+( node liri sptofiy-this-song 'Your Desired Song' )
+( node liri movie-this 'Your Desired Movie' )
+( node liri my-tweets )
+( node liri do-what-it-says )
